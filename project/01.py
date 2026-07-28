@@ -1,4 +1,4 @@
-#python C:\Users\92647\Desktop\coding\test.p.c++.web\python\project
+#python C:\Users\92647\Desktop\coding\test.p.c++.web\python\project\01.py
 # 导入所需依赖库
 import torch
 # 神经网络基础模块（层、激活函数、容器等）
