@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>表单测试</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+.container { display: flex; gap: 40px; flex-wrap: wrap; }
+.section {
+border: 1px solid #ccc;
+padding: 15px;
+width: 45%;
+min-width: 300px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+h3 { margin-top: 0; color: #333; }
+input[type="text"] {
+padding: 6px 10px;
+width: 200px;
+margin-right: 10px;
+}
+button {
+padding: 6px 12px;
+background-color: #555;
+color: white;
+border: none;
+cursor: pointer;
+}
+button:hover { background-color: #777; }
+.result {
+margin-top: 10px;
+font-weight: bold;
+color: #2c3e50;
+}
+</style>
+</head>
+<body>
+<h1>基本交互：GET 与 POST 表单测试</h1>
+
+<div class="container">
+<!-- GET 表单区域 -->
+<div class="section">
+<h3>GET 表单测试</h3>
+<!-- ✅ 修复：action 改为 "/" 匹配路由；name 改为 "msg_get" -->
+<form method="GET" action="/">
+<label>消息：</label>
+<input type="text" name="msg_get"
+value="{{ msg_get or '' }}"
+placeholder="请输入消息">
+<button type="submit">提交</button>
+</form>
+{% if msg_get %}
+<div class="result">
+你发送的 GET 消息：{{ msg_get }}
+</div>
+{% endif %}
+</div>
+
+<!-- POST 表单区域 -->
+<div class="section">
+<h3>POST 表单测试</h3>
+<!-- 修复：name 改为 "msg_post" -->
+<form method="POST" action="/">
+<label>消息：</label>
+<input type="text" name="msg_post"
+value="{{ msg_post or '' }}"
+placeholder="请输入消息">
+<button type="submit">提交</button>
+</form>
+{% if msg_post %}
+<div class="result">
+你发送的 POST 消息：{{ msg_post }}
+</div>
+{% endif %}
+</div>
+</div>
+</body>
+</html>

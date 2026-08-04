@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{# 继承基础模板 base.html，共用导航栏、样式 #}
+
+{# 页面标题：动态读取表单提交的文章标题 #}
+{% block title %}{{ form.title.data }}{% endblock %}
+
+{% block content %}
+    {# 展示文章标题 #}
+    <h1>{{ form.title.data }}</h1>
+    <hr>
+    <div class="card p-4">
+        {#
+        | safe 过滤器 ⭐重点
+        CKEditor提交的content是包含<b>、<p>等HTML标签的富文本
+        Jinja2默认会自动转义HTML（把< >变成文本，看不到样式）
+        |safe 告诉模板引擎：信任这段内容，直接渲染HTML，保留富文本格式
+        #}
+        {{ form.content.data | safe }}
+    </div>
+    <hr>
+    {# 返回编辑页面按钮 #}
+    <a href="/ckeditor_article" class="btn btn-outline-secondary">← 返回编辑</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'bootstrap/base.html' %}
+{# 继承flask-bootstrap内置的基础页面，自带Bootstrap样式，不用自己引入css/js #}
+
+{% block title %}文件上传{% endblock %}
+{# 重写页面标题区块，对应浏览器标签标题 #}
+
+{% block content %}
+{# 重写页面主体内容区块，所有网页内容写在这里 #}
+<div class="container">
+    {# container：Bootstrap类，自动居中、设置页面边距 #}
+    {# method="post"：上传文件必须用post；
+       enctype="multipart/form-data" 固定配置！没有它无法传输文件 #}
+    <form role="form" method="post" enctype="multipart/form-data">
+        <p>文件上传</p>
+        <label>
+            文件：
+            {# type="file" 文件选择框；name="upload" 后端靠这个name获取文件，前后名称必须一致 #}
+            <input type="file" name="upload" class="form-control">
+        </label>
+        {# 提交按钮，点击触发表单上传 #}
+        <input type="submit" class="btn btn-primary" value="上传">
+    </form>
+
+    <h4>已上传文件列表：</h4>
+    <ul>
+        {# Jinja2模板循环，遍历后端传过来的files文件列表 #}
+        {% for file in files %}
+        {# url_for('函数名', 参数) 自动生成访问地址
+           uploaded_files 对应后端@app.route绑定的函数名
+           filename=file 传递文件名参数 #}
+        <li><a href="{{ url_for('uploaded_files', filename=file) }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

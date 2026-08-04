@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{# 继承基础母模板 base.html，复用导航栏、页面骨架 #}
+
+{% block title %}文章编辑{% endblock %}
+{# 重写页面标题区块 #}
+
+{% block content %}
+<h2>文章编辑</h2>
+{# POST提交表单，富文本编辑器必须POST #}
+<form method="post">
+    {# form.hidden_tag() 自动生成CSRF令牌，防跨站攻击，必不可少 #}
+    {{ form.hidden_tag() }}
+
+    <!-- 文章标题 -->
+    <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+    </div>
+
+    <!-- 富文本正文 CKEditor字段 -->
+    <div class="mb-3">
+        {{ form.content.label(class="form-label") }}
+        {# 渲染富文本编辑器对应的输入框 #}
+        {{ form.content(class="form-control") }}
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="mb-3">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+{% endblock %}
+
+{# 重写母模板定义的ckeditor_js区块，只在当前页面加载编辑器脚本 #}
+{% block ckeditor_js %}
+    {# 加载CKEditor核心js文件 #}
+    {{ ckeditor.load() }}
+    <script>
+        // 初始化编辑器，form.content.id 获取富文本框原生id
+        CKEDITOR.replace('{{ form.content.id }}', {
+            height: 320   // 设置编辑器高度320px
+        });
+    </script>
+{% endblock %}

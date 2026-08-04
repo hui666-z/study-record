@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <!-- 引入Bootstrap5 CSS CDN，本地不用下载文件 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<!-- container:居中容器 mt-5：上边距 -->
+<body class="container mt-5" style="max-width:500px;">
+    <h2>用户注册</h2>
+    <!-- method="POST" 提交表单数据到后端 -->
+    <form method="POST">
+        {# form.hidden_tag() 【重中之重】自动生成CSRF令牌，防跨站攻击，必须写！ #}
+        {{ form.hidden_tag() }}
+
+        <!-- ========== 用户名输入框 ========== -->
+        <div class="mb-3">
+            {# form.username.label 渲染标签文字，添加bootstrap样式 #}
+            {{ form.username.label(class="form-label") }}
+            {# 渲染输入框，添加form-control样式 #}
+            {{ form.username(class="form-control") }}
+            {# 循环遍历该字段所有校验错误，红色提示 #}
+            {% for error in form.username.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- ========== 邮箱输入框 ========== -->
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {# type="email"浏览器自带邮箱格式基础校验，placeholder提示文字 #}
+            {{ form.email(class="form-control", type="email", placeholder="example@mail.com") }}
+            {% for error in form.email.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- ========== 性别单选框（RadioField） ========== -->
+        <div class="mb-3">
+            {{ form.sex.label(class="form-label") }}<br>
+            {# 循环单选框所有选项 #}
+            {% for choice in form.sex %}
+                <div class="form-check form-check-inline">
+                    {{ choice(class="form-check-input") }}
+                    {{ choice.label(class="form-check-label") }}
+                </div>
+            {% endfor %}
+            {% for error in form.sex.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- 提交按钮 -->
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% extends 'bootstrap/base.html' %}
+{# 继承flask-bootstrap基础模板，自动加载Bootstrap CSS、JS #}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{# 导入wtf模板工具，用来快速渲染WTForms表单，简写为wtf #}
+
+{% block title %}登录表单{% endblock %}
+{# 页面标题区块，浏览器标签文字 #}
+
+{% block content %}
+{# 页面主体内容区块 #}
+<div class="container" style="max-width: 500px; margin-top: 50px;">
+    <h2 class="mb-4">用户登录</h2>
+
+    {# ===== Flash消息区域：展示后端闪现的提示（成功/错误信息） ===== #}
+    {# get_flashed_messages(with_categories=true) 同时获取【消息类型】和【消息文本】 #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {# alert-{{category}} 动态样式：alert-success / alert-danger #}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                    {# 关闭弹窗按钮 data-dismiss="alert" bootstrap自带关闭功能 #}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {# wtf.quick_form(form) 一键渲染表单！
+       自动生成：form标签、输入框、提交按钮、CSRF令牌、表单校验报错提示
+       不用手写<input>，极大简化代码
+    #}
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
